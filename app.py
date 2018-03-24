@@ -150,4 +150,5 @@ def update_table():
 
 @app.route('/profile', methods = ['GET', 'POST'])
 def profile():
-    return render_template('profile.html')
+    user = User.query.filter_by(id = g.user.id).first()
+    return render_template('profile.html', user = user)

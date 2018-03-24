@@ -3,21 +3,81 @@
 {% block content %}
 
 
+<div class = "container">
+
   <div class = "row">
 
-      <div class = "jumbotron">
+  <div class = "col-sm-3">
+    <div class="jumbotron vertical-center">
 
-        <div class = "col-sm-6">
-          <text>Evan</text>
-        </div>
-      </div>
+        <strong>{{user.first_name}} {{user.last_name}}</strong>
+          <br>
+          <br>
 
-        <div class="col-sm-5 col-sm-offset-1">
-          <text>John</text>
+        <img src = "bird.png">
+        <!--img src="../images/noun_317504_cc.svg" onerror="this.onerror=null; this.src='noun_317504_cc.png'"-->
+          <br>
+          <br>
+
+        <div class = 'container'>
+          <div contenteditable = "true">{{user.email}}</div>
+          <div class = 'overlay'>
+                  <span class = "glyphicon glyphicon-pencil"></span>
+          </div>
         </div>
+          <br>
+
+        <div contenteditable = "true">{{user.phone}}</div>
+          <br>
+
+
+    </div>
+  </div>
+
+  <div class = "col-sm-9">
+
+
+
 
   </div>
 
 
 
+  </div>
+
+</div>
+
+
+
 {% endblock %}
+
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 10%;
+  height: 10%;
+  -webkit-transform:scale(0);
+  transition: .3s ease;
+}
+
+
+.container:hover .overlay {
+  transform: scale(1)
+}
+
+
+.button {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
