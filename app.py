@@ -31,7 +31,6 @@ def home():
         return render_template('index.html', user = g.user, table_head = headers, remeber_topics = user.remember_topics)
     else:
         patients = User.query.filter(User.therapist.any(id = g.user.id)).all()
-        print(patients)
         return render_template('index.html', user = g.user, patients = patients)
 
 
