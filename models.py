@@ -7,6 +7,10 @@ from flask.ext.login import UserMixin
 #     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
 #     db.Column('rember_topic_id', db.Integer, db.ForeignKey('rember_topic.id'))
 # )
+medicalPairs = db.Table('medicalPairs',
+    db.Column('patient_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('therapist_id', db.Integer, db.ForeignKey('user.id'))
+)
 
 pairs = db.Table('pairs',
     db.Column('patient_id', db.Integer, db.ForeignKey('user.id')),
@@ -27,6 +31,8 @@ class User(db.Model, UserMixin):
     user_role = db.Column(db.String(15))
 
     remember_topics = db.relationship('RememberTopic', backref=db.backref('User', lazy = True))
+    matchedPairs = db.relationship('User', secondary = medicalPairs, primaryjoin = (medicalPairs.c.patient_id == id),
+                    secondaryjoin = (medicalPairs.c.therapist_id == id), backref = db.backref('medicalPairs', lazy = 'dynamic'), lazy = 'dynamic')
 
     therapist = db.relationship('User', secondary = pairs, primaryjoin = (pairs.c.patient_id == id),
                     secondaryjoin = (pairs.c.therapist_id == id), backref = db.backref('pairs', lazy = 'dynamic'),

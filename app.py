@@ -109,7 +109,7 @@ def rate_day(rating = None):
 @app.route('/crisis', methods = ['GET', 'POST'])
 def crisis():
     user = User.query.filter_by(id = g.user.id).first()
-    
+
     return render_template('crisis.html')
 
 
@@ -124,3 +124,9 @@ def patient_sched(p_id):
 
     headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     return render_template('index.html', user = user, table_head = headers, remeber_topics = user.remember_topics)
+
+
+@app.route('/search', methods = ['GET', 'POST'])
+def search_for_therapists():
+    users = User.query.filter_by(user_role = 'therapist').all()
+    return render_template('search_results.html', results = users)
