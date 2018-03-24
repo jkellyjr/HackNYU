@@ -46,3 +46,25 @@ class RememberTopic(db.Model):
 
     def __repr__(self):
         return '<RememberTopic: %r>' %(self.title)
+
+class Crisis(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
+    steps = db.relationship('Step', backref='Crisis', lazy=True)
+
+    def __init__(self, title):
+        self.title = title
+
+    def __repr__(self):
+        return '<Crisis: %r>' %(self.title)
+
+class Step(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
+    step_id = db.Column(db.Integer, db.ForeignKey('step.id'), nullable=False)
+
+    def __init__(self, title):
+        self.title = title
+
+    def __repr__(self):
+        return '<Step: %r>' %(self.title)
