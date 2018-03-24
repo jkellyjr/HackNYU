@@ -27,7 +27,7 @@ def initdb_command():
     db.drop_all()
     db.create_all()
     # crisis = Crisis('Panic Attack')
-    db.session.add(crisis)
+    #db.session.add(crisis)
     # step1 = Steps('Breathing: Try controlling your breathing inhaling for 4 seconds and exhaling for 7 seconds.', crisis.id)
     # step2 = Steps('Visualization: Close your eyes and try to picture yourself in a comforting place or a relaxing environment where you feel safe.', crisis.id)
     # step3 = Steps('Grounding: Use your senses to try and "come back to the moment". Focus on the texture of your clothes or something you can smell to re-ground yourself.', crisis.id)
