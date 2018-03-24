@@ -5,6 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic
 from .forms import LoginForm, SignUpForm
+from .phone import SMS
 
 
 #********************************** HELPERS  **********************************
@@ -31,7 +32,6 @@ def home():
         return render_template('index.html', user = g.user, table_head = headers, remeber_topics = user.remember_topics)
     else:
         patients = User.query.filter(User.therapist.any(id = g.user.id)).all()
-        print(patients)
         return render_template('index.html', user = g.user, patients = patients)
 
 
@@ -114,9 +114,11 @@ def crisis():
 
 
 @app.route('/contact', methods = ['GET', 'POST'])
-def contactProfessionsal():
-    #TODO envoke messenger
+def contact_professionsal():
+    message = "hello friend, I'm having a crisis and i need help"
+    SMS.send_message(message)
     return redirect(url_for('home'))
+
 
 @app.route('/patient/<p_id>', methods = ['GET'])
 def patient_sched(p_id):
@@ -130,3 +132,10 @@ def patient_sched(p_id):
 def search_for_therapists():
     users = User.query.filter_by(user_role = 'therapist').all()
     return render_template('search_results.html', results = users)
+
+
+@app.route('/update_table', methods = ['POST'])
+def update_table():
+    print("poster called")
+    print(request.form['value'])
+    return redirect(url_for('home'))

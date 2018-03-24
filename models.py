@@ -31,9 +31,6 @@ class User(db.Model, UserMixin):
     user_role = db.Column(db.String(15))
 
     remember_topics = db.relationship('RememberTopic', backref=db.backref('User', lazy = True))
-    matchedPairs = db.relationship('User', secondary = medicalPairs, primaryjoin = (medicalPairs.c.patient_id == id),
-                    secondaryjoin = (medicalPairs.c.therapist_id == id), backref = db.backref('medicalPairs', lazy = 'dynamic'), lazy = 'dynamic')
-
     therapist = db.relationship('User', secondary = pairs, primaryjoin = (pairs.c.patient_id == id),
                     secondaryjoin = (pairs.c.therapist_id == id), backref = db.backref('pairs', lazy = 'dynamic'),
                     lazy = 'dynamic')
