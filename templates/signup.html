@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Master Cater Signup</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% for field, errors in form.errors.items() %}
+        <div class="alert alert-danger" role="alert">
+            {{ form[field].label }}: {{ ', '.join(errors) }}
+        </div>
+    {% endfor %}
+
+    <div class="jumbotron">
+        <form method="post" action="/signup">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="item">First Name</label>
+                <input type="text" class="form-control" id="first_name" name="first_name">
+            </div>
+            <div class="form-group">
+                <label for="item">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name">
+            </div>
+            <div class="form-group">
+                <label for="item">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="item">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <div class="form-group">
+                <label for="item">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+            </div>
+            <button type="submit" class="btn btn-primary" id="signup_button">Signup</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

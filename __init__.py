@@ -1,4 +1,3 @@
-
 #********************************** IMPORTS  **********************************
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -12,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = 'super-duper-secret-key'
 app.config['DEBUG'] = True
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:5000/hack'
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
