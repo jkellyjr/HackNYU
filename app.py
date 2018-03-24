@@ -30,7 +30,9 @@ def home():
         headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         return render_template('index.html', user = g.user, table_head = headers, remeber_topics = user.remember_topics)
     else:
-        return render_template('index.html', user = g.user)
+        patients = User.query.filter(User.therapist.any(id = g.user.id)).all()
+        print(patients)
+        return render_template('index.html', user = g.user, patients = patients)
 
 
 @app.route('/login', methods = ['POST', 'GET'])
@@ -107,3 +109,10 @@ def rate_day(rating = None):
 def crisis():
     print(g.user)
     return redirect(url_for('home'))
+
+@app.route('/patient/<p_id>', methods = ['GET'])
+def patient_sched(p_id):
+    user = User.query.filter_by(id = p_id).first()
+
+    headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    return render_template('index.html', user = user, table_head = headers, remeber_topics = user.remember_topics)

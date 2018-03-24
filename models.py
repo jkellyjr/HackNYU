@@ -8,6 +8,12 @@ from flask.ext.login import UserMixin
 #     db.Column('rember_topic_id', db.Integer, db.ForeignKey('rember_topic.id'))
 # )
 
+pairs = db.Table('pairs',
+    db.Column('patient_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('therapist_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+
 #********************************** MODELS  **********************************
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
@@ -22,6 +28,11 @@ class User(db.Model, UserMixin):
 
     remember_topics = db.relationship('RememberTopic', backref=db.backref('User', lazy = True))
 
+    therapist = db.relationship('User', secondary = pairs, primaryjoin = (pairs.c.patient_id == id),
+                    secondaryjoin = (pairs.c.therapist_id == id), backref = db.backref('pairs', lazy = 'dynamic'),
+                    lazy = 'dynamic')
+
+
     def __init__(self, first_name, last_name, email, phone, password, user_role):
         self.first_name = first_name
         self.last_name = last_name
@@ -35,6 +46,7 @@ class User(db.Model, UserMixin):
 
 
 
+
 class RememberTopic(db.Model):
     __tablename__ = 'remeber_topic'
 
@@ -45,7 +57,7 @@ class RememberTopic(db.Model):
     def __init__(self, title, user_id):
         self.title = title
         self.user_id = user_id
-        
+
     def __repr__(self):
         return '<RememberTopic: %r>' %(self.title)
 
