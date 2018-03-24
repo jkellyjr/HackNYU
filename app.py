@@ -24,8 +24,14 @@ def load_user(user_id):
 @app.route('/', methods = ['GET'])
 @login_required
 def home():
-    reminder_topics = []
-    return render_template('index.html', user = g.user, rember_topics = reminder_topics)
+    user = User.query.filter_by(id = g.user.id).first()
+    print("rolllie: " + user.user_role)
+
+    if user.user_role == 'patient':
+        headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        return render_template('index.html', user = g.user, table_head = headers, remeber_topics = user.remember_topics)
+    else:
+        return render_template('index.html', user = g.user)
 
 
 @app.route('/login', methods = ['POST', 'GET'])
