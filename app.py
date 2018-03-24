@@ -106,4 +106,4 @@ def rate_day(rating = None):
 @app.route('/crisis', methods = ['GET', 'POST'])
 def crisis():
     print(g.user)
-    return redirect(url_for('home'))
+    return render_template('crisis.html')
