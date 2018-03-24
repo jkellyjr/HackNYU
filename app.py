@@ -3,17 +3,17 @@ from hack import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, g
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, RememberTopic
+from .models import User, RememberTopic, Crisis
 from .forms import LoginForm, SignUpForm
 #from .phone import SMS
-from datetime import datetime
+from datetime import date
 
 #********************************** HELPERS  **********************************
 @app.before_request
 def before_request():
     g.user = current_user
     if g.user.is_authenticated:
-        g.user.last_seen = datetime.utcnow()
+        g.user.last_seen = date.today()
         db.session.add(g.user)
         db.session.commit()
 
@@ -113,9 +113,11 @@ def rate_day(rating = None):
 # TODO
 @app.route('/crisis', methods = ['GET', 'POST'])
 def crisis():
-    user = User.query.filter_by(id = g.user.id).first()
+    crisis = Crisis.query.filter(Crisis.type == 'panic_attack').first()
+    steps = [step for step in crisis.steps]
+    print(crisis.steps)
 
-    return render_template('crisis.html')
+    return render_template('crisis.html', steps = steps)
 
 
 @app.route('/contact', methods = ['GET', 'POST'])
@@ -133,13 +135,14 @@ def patient_sched(p_id):
     return render_template('index.html', user = user, table_head = headers, remeber_topics = user.remember_topics)
 
 
+#TODO
 @app.route('/search', methods = ['GET', 'POST'])
 def search_for_therapists():
     users = User.query.filter_by(user_role = 'therapist').all()
     return render_template('search_results.html', results = users)
 
 
-
+#TODO
 @app.route('/update_table', methods = ['POST'])
 def update_table():
     print("poster called")
