@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% block content %}
     <div class="container-fluid">
         <div class="jumbotron">
@@ -25,13 +26,9 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h3 class="modal-title">Are you sure you would like to contact a medical professional?</h4>
                     </div>
-                    <form method="post" action="/new_topic">
-                        <div class="modal-body">
-                            <div class="modal-body">
-                            </div>
-                        </div>
+                    <form method="GET" action="/contact">
                         <div class="modal-footer">
-                            <button id="contactConfirmation" type="submit" class="btn btn-primary">Contact</button>
+                            <button type="submit" class="btn btn-primary">Contact</button>
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                   </form>
@@ -39,17 +36,4 @@
 
               </div>
             </div>
-
-
-    <script>
-        $(function () {
-            $('#contactConfirmation').on('click', function () {
-                alert('Okay, contacting a professional now.')
-                // $.ajax({
-                //     type: 'POST',
-                //     url: '/rate_day/' + val + ''
-                // })
-            })
-        })
-    </script>
 {% endblock %}
