@@ -29,6 +29,7 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(15))
     password = db.Column(db.String(300))
     user_role = db.Column(db.String(15))
+    last_seen = db.Column(db.Date)
 
     remember_topics = db.relationship('RememberTopic', backref=db.backref('User', lazy = True))
     therapist = db.relationship('User', secondary = pairs, primaryjoin = (pairs.c.patient_id == id),
@@ -63,6 +64,7 @@ class RememberTopic(db.Model):
 
     def __repr__(self):
         return '<RememberTopic: %r>' %(self.title)
+
 
 # class Crisis(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)

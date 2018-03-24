@@ -6,15 +6,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic
 from .forms import LoginForm, SignUpForm
 #from .phone import SMS
-
+from datetime import datetime
 
 #********************************** HELPERS  **********************************
 @app.before_request
 def before_request():
     g.user = current_user
     if g.user.is_authenticated:
+        g.user.last_seen = datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -25,6 +27,8 @@ def load_user(user_id):
 @app.route('/', methods = ['GET'])
 @login_required
 def home():
+    flash("Glad to hear from you " + g.user.first_name)
+
     user = User.query.filter_by(id = g.user.id).first()
 
     if user.user_role == 'patient':
@@ -85,7 +89,8 @@ def signup():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    session.pop('_flashes', None)
+    return redirect(url_for('login'))
 
 
 @app.route('/new_topic', methods = ['GET', 'POST'])
