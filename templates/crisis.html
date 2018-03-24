@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="jumbotron">
+            <h2>Steps to improve</h2><hr><br>
+            <ol class='list-group'>
+                {% for step in steps %}
+                    <li class="list-group">{{ step.name }}</li>
+                {% endfor %}
+            </ol>
+            <hr><br>
+            <h2>Helpful Info</h2>
+            {% for info in helpful_info %}
+                <p>{{ info.name }}</p>
+            {% endfor %}
+            <button data-toggle="modal" data-target="#confirmContact" type="submit" class="btn btn-primary">Contact</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
+    </div>
+
+    <div id="confirmContact" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Are you sure you would like to contact a medical professional?</h4>
+                    </div>
+                    <form method="GET" action="/contact">
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Contact</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+{% endblock %}

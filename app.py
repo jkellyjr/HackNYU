@@ -105,9 +105,17 @@ def rate_day(rating = None):
     return redirect(url_for('home'))
 
 
+# TODO
 @app.route('/crisis', methods = ['GET', 'POST'])
 def crisis():
-    print(g.user)
+    user = User.query.filter_by(id = g.user.id).first()
+    
+    return render_template('crisis.html')
+
+
+@app.route('/contact', methods = ['GET', 'POST'])
+def contactProfessionsal():
+    #TODO envoke messenger
     return redirect(url_for('home'))
 
 @app.route('/patient/<p_id>', methods = ['GET'])
