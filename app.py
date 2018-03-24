@@ -28,7 +28,6 @@ def home():
 
     if user.user_role == 'patient':
         headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        print(user.remember_topics)
         return render_template('index.html', user = g.user, table_head = headers, remeber_topics = user.remember_topics)
     else:
         return render_template('index.html', user = g.user)
@@ -94,3 +93,17 @@ def add_remeber_topic():
         db.session.add(topic)
         db.session.commit()
         return redirect(url_for('home'))
+
+
+# TODO
+@app.route('/rate_day/<rating>', methods = ['GET', 'POST'])
+def rate_day(rating = None):
+    if request.method == 'POST' and rating != None:
+        print("day rating: " + str(rating))
+    return redirect(url_for('home'))
+
+
+@app.route('/crisis', methods = ['GET', 'POST'])
+def crisis():
+    print(g.user)
+    return redirect(url_for('home'))

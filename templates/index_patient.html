@@ -30,29 +30,32 @@
                             {% for col in table_head %}
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info">Select</button>
-                                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                        <button type="button" class="btn btn-xs btn-info">Select</button>
+                                        <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
                                         <span class="sr-only">Toggle Dropdown</span>
                                       </button>
                                       <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
+                                        <li><a id="dayRate5" data-id="5">Great</a></li>
+                                        <li><a id="dayRate4" data-id="4">Good</a></li>
+                                        <li><a id="dayRate3" data-id="3">Okay</a></li>
+                                        <li><a id="dayRate2" data-id="2">Eh</a></li>
+                                        <li><a id="dayRate1" data-id="1">Not fun</a></li>
                                       </ul>
                                    </div>
                                </td>
                              {% endfor %}
                         </tr>
-
-
                     </tbody>
                 </table>
-        </div>
+            </div>
         </div>
 
         <div class="jumbotron">
-            <h2>In a crisis</h2>
+            <h2>If in a crisis</h2>
+            <form action="/crisis" method="POST">
+              <button type="submit" class="btn btn-primary btn-lg btn-block">Seek Help</button>
+            </form>
         <div>
 
     </div>
@@ -82,4 +85,17 @@
 
               </div>
             </div>
+
+
+    <script>
+        $(function () {
+            $('#dayRate1, #dayRate2, #dayRate3, #dayRate4, #dayRate5').on('click', function () {
+                var val = $(this).data('id')
+                $.ajax({
+                    type: 'POST',
+                    url: '/rate_day/' + val + ''
+                })
+            })
+        })
+    </script>
 {% endblock %}
