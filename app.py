@@ -134,7 +134,7 @@ def search_for_therapists():
     return render_template('search_results.html', results = users)
 
 
-<<<<<<< Updated upstream
+
 @app.route('/update_table', methods = ['POST'])
 def update_table():
     print("poster called")
@@ -143,8 +143,6 @@ def update_table():
 
 
 
-=======
->>>>>>> Stashed changes
 @app.route('/profile', methods = ['GET', 'POST'])
 def profile():
     return render_template('profile.html')
