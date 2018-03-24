@@ -1,5 +1,5 @@
 #********************************** IMPORTS  **********************************
-from hack import db
+from HACKNYU2018Github import db
 from flask.ext.login import UserMixin
 
 #**********************************  ASSOCIATION TABLES  **********************************
@@ -64,27 +64,27 @@ class RememberTopic(db.Model):
     def __repr__(self):
         return '<RememberTopic: %r>' %(self.title)
 
-class Crisis(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(50), nullable=False)
-    #crisis_id = db.Column(db.Integer, db.ForeignKey('crisis.id'), nullable=False)
-    steps = db.relationship('Step', backref=db.backref('Crisis', lazy=True))
+# class Crisis(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     title = db.Column(db.String(50), nullable=False)
+#     #crisis_id = db.Column(db.Integer, db.ForeignKey('crisis.id'), nullable=False)
+#     steps = db.relationship('Step', backref=db.backref('Crisis', lazy=True))
 
-    def __init__(self, title):
-        self.title = title
+#     def __init__(self, title):
+#         self.title = title
 
-    def __repr__(self):
-        return '<Crisis: %r>' %(self.title)
+#     def __repr__(self):
+#         return '<Crisis: %r>' %(self.title)
 
-class Step(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(300), nullable=False)
-    step_id = db.Column(db.Integer, db.ForeignKey('crisis.id'), nullable=False)
-    url = db.Column(db.String(90), nullable=False)
+# class Step(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     text = db.Column(db.String(300), nullable=False)
+#     step_id = db.Column(db.Integer, db.ForeignKey('crisis.id'), nullable=False)
+#     url = db.Column(db.String(90), nullable=False)
 
-    def __init__(self, text, crisis_id):
-        self.text = text
-        self.crisis_id = crisis_id
+#     def __init__(self, text, crisis_id):
+#         self.text = text
+#         self.crisis_id = crisis_id
 
-    def __repr__(self):
-        return '<step: %r>' %(self.text)
+#     def __repr__(self):
+#         return '<step: %r>' %(self.text)
