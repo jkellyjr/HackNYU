@@ -78,7 +78,10 @@ def signup():
             flash('The passwords do not match')
             return redirect(url_for(signup))
         else:
-            user = User(request.form['first_name'], request.form['last_name'], request.form['email'], generate_password_hash(request.form['password']))
+            user_role = 'patients'
+            if request.form['therapist']:
+                user_role = 'therapist'
+            user = User(request.form['first_name'], request.form['last_name'], request.form['email'], request.form['phone'], generate_password_hash(request.form['password']), user_role)
             db.session.add(user)
             db.session.commit()
         if user != None:

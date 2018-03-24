@@ -39,12 +39,20 @@
                 <input type="email" class="form-control" id="email" name="email">
             </div>
             <div class="form-group">
+                <label for="item">Phone</label>
+                <input type="text" class="form-control bfh-phone" data-format="+1 (ddd) ddd-dddd" id="phone" name="phone">
+            </div>
+            <div class="form-group">
                 <label for="item">Password</label>
                 <input type="password" class="form-control" id="password" name="password">
             </div>
             <div class="form-group">
                 <label for="item">Confirm Password</label>
                 <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+            </div>
+            <div class="form-group">
+                <label class="radio-inline"><input type="radio" id="therapist" name="therapist">Therapist</label>
+                <label class="radio-inline"><input type="radio" id="patient" name="patient">Therapist</label>
             </div>
             <button type="submit" class="btn btn-primary" id="signup_button">Signup</button>
         </form>
