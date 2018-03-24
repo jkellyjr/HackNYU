@@ -5,7 +5,9 @@
             <h2>Steps to improve</h2><hr><br>
             <ol class='list-group'>
                 {% for step in steps %}
-                    <li class="list-group">{{ step.name }}</li>
+                    <a href={{step.url}}>
+                        <li class="list-group">{{ step.text }}</li>
+                    </a>
                 {% endfor %}
             </ol>
             <hr><br>
