@@ -19,19 +19,19 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 #********************************** INIT  **********************************
-from .models import User, Crisis, Steps
+from .models import User
 
 @app.cli.command('initdb')
 def initdb_command():
     """Reinitializes the database"""
     db.drop_all()
     db.create_all()
-    crisis = Crisis('Panic Attack')
+    # crisis = Crisis('Panic Attack')
     db.session.add(crisis)
-    step1 = Steps('Breathing: Try controlling your breathing inhaling for 4 seconds and exhaling for 7 seconds.', crisis.id)
-    step2 = Steps('Visualization: Close your eyes and try to picture yourself in a comforting place or a relaxing environment where you feel safe.', crisis.id)
-    step3 = Steps('Grounding: Use your senses to try and "come back to the moment". Focus on the texture of your clothes or something you can smell to re-ground yourself.', crisis.id)
-    step4 = Steps('Meditation: Try and combine all of these to meditate. Focus your mind on a place or object to achieve a clear and calm state.', crisis.id)
+    # step1 = Steps('Breathing: Try controlling your breathing inhaling for 4 seconds and exhaling for 7 seconds.', crisis.id)
+    # step2 = Steps('Visualization: Close your eyes and try to picture yourself in a comforting place or a relaxing environment where you feel safe.', crisis.id)
+    # step3 = Steps('Grounding: Use your senses to try and "come back to the moment". Focus on the texture of your clothes or something you can smell to re-ground yourself.', crisis.id)
+    # step4 = Steps('Meditation: Try and combine all of these to meditate. Focus your mind on a place or object to achieve a clear and calm state.', crisis.id)
     db.session.commit()
 
     print('Created Database')
