@@ -5,6 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic
 from .forms import LoginForm, SignUpForm
+from .phone import SMS
 
 
 #********************************** HELPERS  **********************************
@@ -114,8 +115,10 @@ def crisis():
 
 @app.route('/contact', methods = ['GET', 'POST'])
 def contact_professionsal():
-    #TODO envoke messenger
+    message = "hello friend"
+    SMS.send_message(message)
     return redirect(url_for('home'))
+
 
 @app.route('/patient/<p_id>', methods = ['GET'])
 def patient_sched(p_id):
