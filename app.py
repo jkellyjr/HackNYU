@@ -115,7 +115,7 @@ def crisis():
 
 @app.route('/contact', methods = ['GET', 'POST'])
 def contact_professionsal():
-    message = "hello friend"
+    message = "hello friend, I'm having a crisis and i need help"
     SMS.send_message(message)
     return redirect(url_for('home'))
 
