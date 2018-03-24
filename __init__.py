@@ -33,8 +33,3 @@ def initdb_command():
 
 if __name__ == '__main__':
     app.run()
-
-
-
-## KNOWN ISSUES
-# 1.) User::signUp allows multiple radio button clicks

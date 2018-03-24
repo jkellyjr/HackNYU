@@ -18,5 +18,3 @@ class SignUpForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm_password',
         message = 'Passwords must match')] )
     confirm_password = PasswordField('Repeat Password')
-    therapist = BooleanField('Therapist', default = False)
-    patient = BooleanField('Patient', default = False)

@@ -2,8 +2,8 @@
 from hack import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, g
 from flask_login import login_user, logout_user, login_required, current_user
-from werkzeug.security import generate_password_hash
-from .models import User
+from werkzeug.security import generate_password_hash, check_password_hash
+from .models import User, RememberTopic
 from .forms import LoginForm, SignUpForm
 
 
@@ -19,28 +19,13 @@ def before_request():
 def load_user(user_id):
     return User.query.get(user_id)
 
-# Add a user to the database
-def add_user(username, password, confirm_password, user_role, return_fun):
-    user = User.query.filter_by(username = username).first()
-
-    if user != None:
-        flash('Username already exists')
-        return redirect(url_for(return_fun))
-    elif password != confirm_password:
-        flash('The passwords do not match')
-        return redirect(url_for(return_fun))
-    else:
-        user = User(username, generate_password_hash(password), user_role)
-        db.session.add(user)
-        db.session.commit()
-        return user
-
 
 #********************************** VIEWS  **********************************
 @app.route('/', methods = ['GET'])
 @login_required
 def home():
-    return render_template('index.html')
+    reminder_topics = []
+    return render_template('index.html', user = g.user, rember_topics = reminder_topics)
 
 
 @app.route('/login', methods = ['POST', 'GET'])
@@ -52,6 +37,7 @@ def login():
     form = LoginForm()
 
     if request.method == 'POST' and form.validate_on_submit():
+        print("post request made")
         user = User.query.filter_by(email = request.form['email']).first()
         if user == None:
             flash('Invalid username provided')
@@ -73,15 +59,13 @@ def signup():
         user = User.query.filter_by(email = request.form['email']).first()
         if user != None:
             flash('Username already exists')
-            return redirect(url_for(signup))
+            return redirect(url_for('signup'))
         elif request.form['password'] != request.form['confirm_password']:
             flash('The passwords do not match')
-            return redirect(url_for(signup))
+            return redirect(url_for('signup'))
         else:
-            user_role = 'patients'
-            if request.form['therapist']:
-                user_role = 'therapist'
-            user = User(request.form['first_name'], request.form['last_name'], request.form['email'], request.form['phone'], generate_password_hash(request.form['password']), user_role)
+            user = User(request.form['first_name'], request.form['last_name'], request.form['email'], request.form['phone'], generate_password_hash(request.form['password']), request.form['choice1'])
+            print(user)
             db.session.add(user)
             db.session.commit()
         if user != None:
@@ -95,3 +79,9 @@ def signup():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route('/new_topic', methods = ['GET', 'POST'])
+def add_remeber_topic():
+    if request.method == 'POST':
+        topic = RememberTopic(request.form('title'))
+        print("new topic: " + topic)
