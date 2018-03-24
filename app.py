@@ -134,8 +134,17 @@ def search_for_therapists():
     return render_template('search_results.html', results = users)
 
 
+<<<<<<< Updated upstream
 @app.route('/update_table', methods = ['POST'])
 def update_table():
     print("poster called")
     print(request.form['value'])
     return redirect(url_for('home'))
+
+
+
+=======
+>>>>>>> Stashed changes
+@app.route('/profile', methods = ['GET', 'POST'])
+def profile():
+    return render_template('profile.html')

@@ -16,12 +16,58 @@
 
         <h3>Good to see you, {{ user.first_name }}</h3>
 
+<<<<<<< Updated upstream
+      <div class = 'row'>
+          <div class = 'jumbotron'>
+
+              <a href = '/profile'>
+                <text>Evan Gutman</text>
+              </a>
+
+          </div>
+
+=======
+        <div class = "contianer">
+
+          <div class = "row">
+
+          <div class = "col-sm-3">
+            <div class="jumbotron">
+              <h3>Evan Gutman</h3>
+                <br>
+              <a href = '/profile'>
+                <img src = "../images/bird.png" >
+              </a>
+              <br>
+
+            </div>
+          </div>
+
+          <div class = "col-sm-9">
+
+
+>>>>>>> Stashed changes
+
         {% if user.user_role == 'patient' %}
             {% include 'index_patient.html' %}
         {% elif user.user_role == 'therapist' %}
             {% include 'index_therapist.html' %}
         {% endif %}
 
+<<<<<<< Updated upstream
+
+    </div>
+
+
+=======
+      </div>
+
+      </div>
+
+        </div>
+
+        </div>
+>>>>>>> Stashed changes
     </div>
 
 {% endblock %}
