@@ -78,7 +78,7 @@ class Crisis(db.Model):
 
 class Step(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(90), nullable=False)
+    text = db.Column(db.String(300), nullable=False)
     step_id = db.Column(db.Integer, db.ForeignKey('crisis.id'), nullable=False)
     url = db.Column(db.String(90), nullable=False)
 
