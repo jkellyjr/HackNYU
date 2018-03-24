@@ -113,7 +113,7 @@ def crisis():
 
 
 @app.route('/contact', methods = ['GET', 'POST'])
-def contactProfessionsal():
+def contact_professionsal():
     #TODO envoke messenger
     return redirect(url_for('home'))
 
@@ -129,3 +129,10 @@ def patient_sched(p_id):
 def search_for_therapists():
     users = User.query.filter_by(user_role = 'therapist').all()
     return render_template('search_results.html', results = users)
+
+
+@app.route('/update_table', methods = ['POST'])
+def update_table():
+    print("poster called")
+    print(request.form['value'])
+    return redirect(url_for('home'))

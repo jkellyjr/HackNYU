@@ -1,64 +1,66 @@
 {% block content %}
-        <div class="jumbotron">
-            <div class="col-xs-2 pull-right">
-                <button data-toggle="modal" data-target="#addTopic" class="btn btn-primary btn-block">Add Topic</button>
-            </div>
-            <h2>Table</h2><hr><br>
+<header>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+</head>
 
-            <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead class="thead-inverse">
-                        <tr>
-                            <th><b>Topics<b></th>
-                            {% for col in table_head %}
-                                <th scope="col">{{ col }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for topic in remeber_topics %}
-                            <tr>
-                                <td>{{ topic.title }}</td>
-                                {% for col in table_head %}
-                                    <td></td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                        <tr>
-                            <td>How was your day:</td>
-
-                            {% for col in table_head %}
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-xs btn-info">Select</button>
-                                        <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                      </button>
-                                      <ul class="dropdown-menu" role="menu">
-                                        <li><a id="dayRate5" data-id="5">Great</a></li>
-                                        <li><a id="dayRate4" data-id="4">Good</a></li>
-                                        <li><a id="dayRate3" data-id="3">Okay</a></li>
-                                        <li><a id="dayRate2" data-id="2">Eh</a></li>
-                                        <li><a id="dayRate1" data-id="1">Not fun</a></li>
-                                      </ul>
-                                   </div>
-                               </td>
-                             {% endfor %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="jumbotron">
-            <h2>If in a crisis</h2>
-            <form action="/crisis" method="POST">
-              <button type="submit" class="btn btn-primary btn-lg btn-block">Seek Help</button>
-            </form>
-        </div>
-
+<div class="jumbotron">
+    <div class="col-xs-2 pull-right">
+        <button data-toggle="modal" data-target="#addTopic" class="btn btn-primary btn-block">Add Topic</button>
     </div>
+    <h2>Table</h2><hr><br>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="thead-inverse">
+                <tr>
+                    <th><b>Topics<b></th>
+                    {% for col in table_head %}
+                        <th scope="col">{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>How was your day:</td>
+                        {% for col in table_head %}
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-xs btn-info">Select</button>
+                                    <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                  </button>
+                                  <ul class="dropdown-menu" role="menu">
+                                    <li><a id="dayRate5" data-id="5">Great</a></li>
+                                    <li><a id="dayRate4" data-id="4">Good</a></li>
+                                    <li><a id="dayRate3" data-id="3">Okay</a></li>
+                                    <li><a id="dayRate2" data-id="2">Eh</a></li>
+                                    <li><a id="dayRate1" data-id="1">Not fun</a></li>
+                                  </ul>
+                               </div>
+                           </td>
+                         {% endfor %}
+                </tr>
+                {% for topic in remeber_topics %}
+                    <tr>
+                        <td>{{ topic.title }}</td>
+                        {% for col in table_head %}
+                            <td></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="jumbotron">
+    <h2>If in a crisis</h2>
+    <form action="/crisis" method="POST">
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Seek Help</button>
+    </form>
+</div>
 
     <div id="addTopic" class="modal fade" role="dialog">
               <div class="modal-dialog">
@@ -84,18 +86,48 @@
                 </div>
 
               </div>
-            </div>
+    </div>
 
 
     <script>
-        $(function () {
-            $('#dayRate1, #dayRate2, #dayRate3, #dayRate4, #dayRate5').on('click', function () {
-                var val = $(this).data('id')
-                $.ajax({
-                    type: 'POST',
-                    url: '/rate_day/' + val + ''
-                })
-            })
-        })
+        $.fn.editable.defaults.mode = 'inline';
+
+        $(document).ready();
+
+        $("table.table tr td").editable({
+            send: 'always',
+            type: 'text',
+            url: '/update_table'
+        });
+
+        // var valueList = []
+        //
+        // $("table.table tr td").bind("click", dataClick);
+        //
+        // function dataClick(e) {
+        //     if (e.currentTarget.innerHTML != "") {
+        //         return
+        //     }
+        //     if(e.currentTarget.contentEditable != null){
+        //         $(e.currentTarget).attr("contentEditable", true)
+        //         console.log("changing text ")
+        //     }
+        //     else {
+        //         //var text = "<input type='text'>"
+        //         // $(e.currentTarget).append()
+        //         // $(e.currentTarget).attr('data-index')
+        //         //console.log("new value: " + e.currentTarget.innerHTML + " at index: ")
+        //
+        //     }
+        // }
+        // $(function () {
+        //     $('#dayRate1, #dayRate2, #dayRate3, #dayRate4, #dayRate5').on('click', function () {
+        //         var val = $(this).data('id')
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: '/rate_day/' + val + ''
+        //         })
+        //     })
+        // })
     </script>
 {% endblock %}
