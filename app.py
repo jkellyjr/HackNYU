@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic
 from .forms import LoginForm, SignUpForm
-#from .phone import SMS
+from .phone import SMS
 
 
 #********************************** HELPERS  **********************************
@@ -116,7 +116,7 @@ def crisis():
 @app.route('/contact', methods = ['GET', 'POST'])
 def contact_professionsal():
     message = "hello friend, I'm having a crisis and i need help"
-    SMS.send_message(message)
+    SMS.emergency_message(message)
     return redirect(url_for('home'))
 
 
@@ -134,7 +134,7 @@ def search_for_therapists():
     return render_template('search_results.html', results = users)
 
 
-<<<<<<< Updated upstream
+
 @app.route('/update_table', methods = ['POST'])
 def update_table():
     print("poster called")
@@ -143,8 +143,8 @@ def update_table():
 
 
 
-=======
->>>>>>> Stashed changes
+
 @app.route('/profile', methods = ['GET', 'POST'])
 def profile():
     return render_template('profile.html')
+
