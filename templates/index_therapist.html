@@ -2,6 +2,12 @@
     <div class="jumbotron">
         <h2>Patients:</h2>
         <ul class="list-group">
+          {% for col in patients %}
+
+            <a href = '/patient/{{col.id}}' class = "list-group-item list-group-item-action">
+              <li class = "list-group">{{col.id}} {{col.last_name}}</li>
+            </a>
+          {% endfor %}
         </ul>
     </div>
 {% endblock %}

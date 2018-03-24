@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-fluid">
+        <h1>Search Results</h1>
+        <div class="jumbotron">
+            {% if results|length == 0 %}
+                <h2>I'm sorry, no results were found.</h2>
+            {% else %}
+                <ul class="list-group">
+                    {% for res in results %}
+                        <li class="list-group"><h3>{{ res.first_name }} {{ res.last_name }}</h3></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
