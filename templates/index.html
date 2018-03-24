@@ -1,6 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+
+        body{
+            background-color: #C9D0FC;
+        }
+            h3{
+                text-align: center;
+                font-size: 35px;
+                
+            }
+            
+        </style>
+    </head>
+    <body>
+    
+    </body>
+    </html>
+
     <div class="container-fluid">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -14,30 +36,22 @@
             {% endif %}
         {% endwith %}
 
-        <h3>Good to see you, {{ user.first_name }}</h3>
-
-<<<<<<< Updated upstream
-      <div class = 'row'>
-          <div class = 'jumbotron'>
-
-              <a href = '/profile'>
-                <text>Evan Gutman</text>
-              </a>
-
-          </div>
-
-=======
         <div class = "contianer">
 
           <div class = "row">
 
           <div class = "col-sm-3">
             <div class="jumbotron">
-              <h3>Evan Gutman</h3>
+                <embed src="/images/network.svg" alt="Generic networking image">
+                <a href = '/profile'>
+                    <h3 text-align:'center'>{{ user.first_name }} {{ user.last_name }}</h3>
+                </a>
+                <hr>
+                <h5>We last heard from you: {{ user.last_seen }}</h5>
+
                 <br>
-              <a href = '/profile'>
-                <img src = "../images/bird.png" >
-              </a>
+
+                    <!-- <img src = "../images/bird.png" > -->
               <br>
 
             </div>
@@ -46,7 +60,6 @@
           <div class = "col-sm-9">
 
 
->>>>>>> Stashed changes
 
         {% if user.user_role == 'patient' %}
             {% include 'index_patient.html' %}
@@ -54,20 +67,16 @@
             {% include 'index_therapist.html' %}
         {% endif %}
 
-<<<<<<< Updated upstream
 
-    </div>
+          </div>
 
 
-=======
+
       </div>
 
       </div>
 
         </div>
 
-        </div>
->>>>>>> Stashed changes
-    </div>
 
 {% endblock %}

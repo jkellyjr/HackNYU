@@ -1,20 +1,27 @@
 #********************************** IMPORTS  **********************************
-from hack import app, db, login_manager
+from HACKNYU2018Github import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, g
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, RememberTopic
+from .models import User, RememberTopic, Crisis
 from .forms import LoginForm, SignUpForm
+<<<<<<< HEAD
 from .phone import SMS
 
+=======
+#from .phone import SMS
+from datetime import date
+>>>>>>> b3ce4fb4e7cea56a0035a799c377066875aeb742
 
 #********************************** HELPERS  **********************************
 @app.before_request
 def before_request():
     g.user = current_user
     if g.user.is_authenticated:
+        g.user.last_seen = date.today()
         db.session.add(g.user)
         db.session.commit()
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -25,6 +32,8 @@ def load_user(user_id):
 @app.route('/', methods = ['GET'])
 @login_required
 def home():
+    flash("Glad to hear from you " + g.user.first_name)
+
     user = User.query.filter_by(id = g.user.id).first()
 
     if user.user_role == 'patient':
@@ -85,7 +94,8 @@ def signup():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    session.pop('_flashes', None)
+    return redirect(url_for('login'))
 
 
 @app.route('/new_topic', methods = ['GET', 'POST'])
@@ -108,9 +118,11 @@ def rate_day(rating = None):
 # TODO
 @app.route('/crisis', methods = ['GET', 'POST'])
 def crisis():
-    user = User.query.filter_by(id = g.user.id).first()
+    crisis = Crisis.query.filter(Crisis.type == 'panic_attack').first()
+    steps = [step for step in crisis.steps]
+    print(crisis.steps)
 
-    return render_template('crisis.html')
+    return render_template('crisis.html', steps = steps)
 
 
 @app.route('/contact', methods = ['GET', 'POST'])
@@ -128,13 +140,18 @@ def patient_sched(p_id):
     return render_template('index.html', user = user, table_head = headers, remeber_topics = user.remember_topics)
 
 
+#TODO
 @app.route('/search', methods = ['GET', 'POST'])
 def search_for_therapists():
     users = User.query.filter_by(user_role = 'therapist').all()
     return render_template('search_results.html', results = users)
 
 
+<<<<<<< HEAD
 
+=======
+#TODO
+>>>>>>> b3ce4fb4e7cea56a0035a799c377066875aeb742
 @app.route('/update_table', methods = ['POST'])
 def update_table():
     print("poster called")
@@ -143,8 +160,15 @@ def update_table():
 
 
 
+<<<<<<< HEAD
 
 @app.route('/profile', methods = ['GET', 'POST'])
 def profile():
     return render_template('profile.html')
 
+=======
+@app.route('/profile', methods = ['GET', 'POST'])
+def profile():
+    user = User.query.filter_by(id = g.user.id).first()
+    return render_template('profile.html', user = user)
+>>>>>>> b3ce4fb4e7cea56a0035a799c377066875aeb742

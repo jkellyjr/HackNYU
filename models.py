@@ -1,22 +1,17 @@
 #********************************** IMPORTS  **********************************
-from hack import db
+<<<<<<< HEAD
+from HACKNYU2018Github import db
 from flask.ext.login import UserMixin
+=======
+from hack import db
+from flask_login import UserMixin
+>>>>>>> d96059d5856ea8ccd73c72de47e355b355434dd5
 
 #**********************************  ASSOCIATION TABLES  **********************************
-# remember_topics = db.Table('remember_topics',
-#     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
-#     db.Column('rember_topic_id', db.Integer, db.ForeignKey('rember_topic.id'))
-# )
-medicalPairs = db.Table('medicalPairs',
-    db.Column('patient_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('therapist_id', db.Integer, db.ForeignKey('user.id'))
-)
-
 pairs = db.Table('pairs',
     db.Column('patient_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('therapist_id', db.Integer, db.ForeignKey('user.id'))
 )
-
 
 #********************************** MODELS  **********************************
 class User(db.Model, UserMixin):
@@ -29,12 +24,12 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(15))
     password = db.Column(db.String(300))
     user_role = db.Column(db.String(15))
+    last_seen = db.Column(db.Date)
 
+    day_info = db.relationship('DayInfo', backref=db.backref('User', lazy = True))
     remember_topics = db.relationship('RememberTopic', backref=db.backref('User', lazy = True))
     therapist = db.relationship('User', secondary = pairs, primaryjoin = (pairs.c.patient_id == id),
-                    secondaryjoin = (pairs.c.therapist_id == id), backref = db.backref('pairs', lazy = 'dynamic'),
-                    lazy = 'dynamic')
-
+                    secondaryjoin = (pairs.c.therapist_id == id), backref = db.backref('pairs', lazy = 'dynamic'), lazy = 'dynamic')
 
     def __init__(self, first_name, last_name, email, phone, password, user_role):
         self.first_name = first_name
@@ -46,7 +41,6 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return '<User: %r %r>' %(self.first_name, self.last_name)
-
 
 
 
@@ -64,27 +58,85 @@ class RememberTopic(db.Model):
     def __repr__(self):
         return '<RememberTopic: %r>' %(self.title)
 
+<<<<<<< HEAD
 # class Crisis(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     title = db.Column(db.String(50), nullable=False)
 #     #crisis_id = db.Column(db.Integer, db.ForeignKey('crisis.id'), nullable=False)
 #     steps = db.relationship('Step', backref=db.backref('Crisis', lazy=True))
-#
+
 #     def __init__(self, title):
 #         self.title = title
-#
+=======
+
+
+class DayInfo(db.Model):
+    __tablename__ = 'day_info'
+
+    id = db.Column(db.Integer, unique = True, primary_key =True)
+    date = db.Column(db.Date, nullable = False)
+    topic_and_responces = db.Column(db.String(5000))
+    day_rate = db.Column(db.Integer)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+
+    def __init__(self, date, topic_and_responces, day_rate, user_id):
+        self.date = date
+        self.topic_and_responces = topic_and_responces
+        self.day_rate = day_rate
+        self.user_id = user_id
+
+    def __repr__(self):
+        return '<DayRate: %r, rate: %r>' % (self.date, self.day_rate)
+
+
+
+class Crisis(db.Model):
+    __tablename__ = 'crisis'
+
+    id = db.Column(db.Integer, unique = True, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
+    type = db.Column(db.String(50))
+    steps = db.relationship('Step', backref=db.backref('Crisis', lazy=True))
+
+    def __init__(self, title, type):
+        self.title = title
+        self.type = type
+>>>>>>> d96059d5856ea8ccd73c72de47e355b355434dd5
+
 #     def __repr__(self):
 #         return '<Crisis: %r>' %(self.title)
-#
-# class Steps(db.Model):
+
+<<<<<<< HEAD
+# class Step(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     text = db.Column(db.String(300), nullable=False)
 #     step_id = db.Column(db.Integer, db.ForeignKey('crisis.id'), nullable=False)
 #     url = db.Column(db.String(90), nullable=False)
-#
+
 #     def __init__(self, text, crisis_id):
 #         self.text = text
 #         self.crisis_id = crisis_id
-#
+
 #     def __repr__(self):
 #         return '<step: %r>' %(self.text)
+=======
+
+
+class Step(db.Model):
+    __tablename__ = 'step'
+
+    id = db.Column(db.Integer, unique = True, primary_key=True)
+    text = db.Column(db.String(300), nullable=False)
+    url = db.Column(db.String(200))
+    crisis_id = db.Column(db.Integer, db.ForeignKey('crisis.id'))
+
+
+    def __init__(self, text, url, crisis_id):
+        self.text = text
+        self.url = url
+        self.crisis_id = crisis_id
+
+    def __repr__(self):
+        return '<Step: %r>' % (self.text)
+>>>>>>> d96059d5856ea8ccd73c72de47e355b355434dd5
