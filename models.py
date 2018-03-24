@@ -34,6 +34,7 @@ class User(db.Model, UserMixin):
         return '<User: %r %r>' %(self.first_name, self.last_name)
 
 
+
 class RememberTopic(db.Model):
     __tablename__ = 'remeber_topic'
 
@@ -41,11 +42,13 @@ class RememberTopic(db.Model):
     title = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
-    def __init__(self, title):
+    def __init__(self, title, user_id):
         self.title = title
-
+        self.user_id = user_id
+        
     def __repr__(self):
         return '<RememberTopic: %r>' %(self.title)
+
 # class Crisis(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     title = db.Column(db.String(50), nullable=False)

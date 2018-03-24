@@ -1,21 +1,4 @@
-{% extends "base.html" %}
-
 {% block content %}
-    <div class="container-fluid">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-success" role="alert">
-                    <ul class=flashes>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-        {% endwith %}
-
-        <h1>Good to see you, {{ user.first_name }}</h1>
-
         <div class="jumbotron">
             <div class="col-xs-2 pull-right">
                 <button data-toggle="modal" data-target="#addTopic" class="btn btn-primary btn-block">Add Topic</button>
@@ -41,6 +24,28 @@
                                 {% endfor %}
                             </tr>
                         {% endfor %}
+                        <tr>
+                            <td>How was your day:</td>
+
+                            {% for col in table_head %}
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-info">Select</button>
+                                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                      </button>
+                                      <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                      </ul>
+                                   </div>
+                               </td>
+                             {% endfor %}
+                        </tr>
+
+
                     </tbody>
                 </table>
         </div>

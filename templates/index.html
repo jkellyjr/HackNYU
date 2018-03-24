@@ -18,6 +18,8 @@
 
         {% if user.user_role == 'patient' %}
             {% include 'index_patient.html' %}
+        {% elif user.user_role == 'therapist' %}
+            {% include 'index_therapist.html' %}
         {% endif %}
 
     </div>

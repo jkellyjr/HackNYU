@@ -25,10 +25,10 @@ def load_user(user_id):
 @login_required
 def home():
     user = User.query.filter_by(id = g.user.id).first()
-    print("rolllie: " + user.user_role)
 
     if user.user_role == 'patient':
         headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        print(user.remember_topics)
         return render_template('index.html', user = g.user, table_head = headers, remeber_topics = user.remember_topics)
     else:
         return render_template('index.html', user = g.user)
@@ -86,8 +86,11 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
 @app.route('/new_topic', methods = ['GET', 'POST'])
 def add_remeber_topic():
     if request.method == 'POST':
-        topic = RememberTopic(request.form('title'))
-        print("new topic: " + topic)
+        topic = RememberTopic(request.form['topic_title'], g.user.id)
+        db.session.add(topic)
+        db.session.commit()
+        return redirect(url_for('home'))
