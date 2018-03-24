@@ -2,6 +2,7 @@
 from hack import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, g
 from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash
 from .models import User
 from .forms import LoginForm, SignUpForm
 
@@ -69,7 +70,7 @@ def login():
 def signup():
     form = SignUpForm()
     if request.method == 'POST' and form.validate_on_submit():
-        user = User.query.filter_by(username = request.form['email']).first()
+        user = User.query.filter_by(email = request.form['email']).first()
         if user != None:
             flash('Username already exists')
             return redirect(url_for(signup))

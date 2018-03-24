@@ -18,5 +18,18 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+#********************************** INIT  **********************************
+from .models import User
+
+@app.cli.command('initdb')
+def initdb_command():
+    """Reinitializes the database"""
+    db.drop_all()
+    db.create_all()
+    db.session.commit()
+
+    print('Created Database')
+
+
 if __name__ == '__main__':
     app.run()
