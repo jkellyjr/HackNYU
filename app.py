@@ -29,7 +29,7 @@ def home():
 
     if user.user_role == 'patient':
         headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        return render_template('index_patient.html', user = g.user, table_head = headers, remeber_topics = user.remember_topics)
+        return render_template('index.html', user = g.user, table_head = headers, remeber_topics = user.remember_topics)
     else:
         return render_template('index.html', user = g.user)
 
