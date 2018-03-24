@@ -2,8 +2,8 @@
 
 ## Installation
 ```
-git clone
-cd to repository
+git clone *
+cd <repository>
 python3 -m venv flask
 pip3 install -r requirements
 ```

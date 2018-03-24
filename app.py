@@ -40,7 +40,7 @@ def add_user(username, password, confirm_password, user_role, return_fun):
 @app.route('/', methods = ['GET'])
 @login_required
 def home():
-    return 'hello world'
+    return render_template('index.html')
 
 
 @app.route('/login', methods = ['POST', 'GET'])
@@ -86,3 +86,9 @@ def signup():
         return redirect(url_for('home'))
     else:
         return render_template('signup.html', form = form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
