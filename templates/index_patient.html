@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-success" role="alert">
+                    <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <h1>Good to see you, {{ user.first_name }}</h1>
+
+        <div class="jumbotron">
+            <div class="col-xs-2 pull-right">
+                <button data-toggle="modal" data-target="#addTopic" class="btn btn-primary btn-block">Add Topic</button>
+            </div>
+            <h2>Table</h2><hr><br>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th><b>Topics<b></th>
+                            {% for col in table_head %}
+                                <th scope="col">{{ col }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for topic in remeber_topics %}
+                            <tr>
+                                <td>{{ topic.title }}</td>
+                                {% for col in table_head %}
+                                    <td></td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+        </div>
+
+        <div class="jumbotron">
+            <h2>In a crisis</h2>
+        <div>
+
+    </div>
+
+    <div id="addTopic" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Add a new reminder topic</h4>
+                    </div>
+                    <form method="post" action="/new_topic">
+                        <div class="modal-body">
+                            <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="item">Title</label>
+                                        <input type="text" class="form-control" id="topic_title" name="topic_title">
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+{% endblock %}
