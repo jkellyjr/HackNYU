@@ -5,7 +5,7 @@
 git clone *
 cd <repository>
 python3 -m venv flask
-pip3 install -r requirements
+pip3 install -r requirements.txt
 ```
 
 

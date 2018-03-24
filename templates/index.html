@@ -36,7 +36,30 @@
             {% endif %}
         {% endwith %}
 
-        <h3>Good to see you, {{ user.first_name }}</h3>
+        <div class = "contianer">
+
+          <div class = "row">
+
+          <div class = "col-sm-3">
+            <div class="jumbotron">
+                <embed src="/images/network.svg" alt="Generic networking image">
+                <a href = '/profile'>
+                    <h3 text-align:'center'>{{ user.first_name }} {{ user.last_name }}</h3>
+                </a>
+                <hr>
+                <h5>We last heard from you: {{ user.last_seen }}</h5>
+
+                <br>
+
+                    <!-- <img src = "../images/bird.png" > -->
+              <br>
+
+            </div>
+          </div>
+
+          <div class = "col-sm-9">
+
+
 
         {% if user.user_role == 'patient' %}
             {% include 'index_patient.html' %}
@@ -44,6 +67,16 @@
             {% include 'index_therapist.html' %}
         {% endif %}
 
-    </div>
+
+          </div>
+
+
+
+      </div>
+
+      </div>
+
+        </div>
+
 
 {% endblock %}

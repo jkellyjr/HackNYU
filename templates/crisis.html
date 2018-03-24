@@ -2,19 +2,14 @@
 {% block content %}
     <div class="container-fluid">
         <div class="jumbotron">
-            <h2>Steps to improve</h2><hr><br>
-            <ol class='list-group'>
-                {% for step in steps %}
-                    <a href={{step.url}}>
-                        <li class="list-group">{{ step.text }}</li>
-                    </a>
-                {% endfor %}
-            </ol>
-            <hr><br>
-            <h2>Helpful Info</h2>
-            {% for info in helpful_info %}
-                <p>{{ info.name }}</p>
-            {% endfor %}
+            <h3>Steps to improve your state:</h3><br>
+                <ul class="list-group">
+                    {% for step in steps %}
+                        <a href="{{ step.url }}">
+                            <li class="list-group-item list-group-item-action">{{ loop.index }}.)&emsp; {{ step.text }}</li>
+                        </a>
+                    {% endfor %}
+                </div>
             <button data-toggle="modal" data-target="#confirmContact" type="submit" class="btn btn-primary">Contact</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>

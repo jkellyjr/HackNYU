@@ -90,44 +90,14 @@
 
 
     <script>
-        $.fn.editable.defaults.mode = 'inline';
-
-        $(document).ready();
-
-        $("table.table tr td").editable({
-            send: 'always',
-            type: 'text',
-            url: '/update_table'
-        });
-
-        // var valueList = []
-        //
-        // $("table.table tr td").bind("click", dataClick);
-        //
-        // function dataClick(e) {
-        //     if (e.currentTarget.innerHTML != "") {
-        //         return
-        //     }
-        //     if(e.currentTarget.contentEditable != null){
-        //         $(e.currentTarget).attr("contentEditable", true)
-        //         console.log("changing text ")
-        //     }
-        //     else {
-        //         //var text = "<input type='text'>"
-        //         // $(e.currentTarget).append()
-        //         // $(e.currentTarget).attr('data-index')
-        //         //console.log("new value: " + e.currentTarget.innerHTML + " at index: ")
-        //
-        //     }
-        // }
-        // $(function () {
-        //     $('#dayRate1, #dayRate2, #dayRate3, #dayRate4, #dayRate5').on('click', function () {
-        //         var val = $(this).data('id')
-        //         $.ajax({
-        //             type: 'POST',
-        //             url: '/rate_day/' + val + ''
-        //         })
-        //     })
-        // })
+        $(function () {
+            $('#dayRate1, #dayRate2, #dayRate3, #dayRate4, #dayRate5').on('click', function () {
+                var val = $(this).data('id')
+                $.ajax({
+                    type: 'POST',
+                    url: '/rate_day/' + val + ''
+                })
+            })
+        })
     </script>
 {% endblock %}
