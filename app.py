@@ -1,17 +1,12 @@
 #********************************** IMPORTS  **********************************
-from HACKNYU2018Github import app, db, login_manager
+from hack import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, g
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic, Crisis
 from .forms import LoginForm, SignUpForm
-<<<<<<< HEAD
 from .phone import SMS
-
-=======
-#from .phone import SMS
 from datetime import date
->>>>>>> b3ce4fb4e7cea56a0035a799c377066875aeb742
 
 #********************************** HELPERS  **********************************
 @app.before_request
@@ -32,8 +27,6 @@ def load_user(user_id):
 @app.route('/', methods = ['GET'])
 @login_required
 def home():
-    flash("Glad to hear from you " + g.user.first_name)
-
     user = User.query.filter_by(id = g.user.id).first()
 
     if user.user_role == 'patient':
@@ -147,11 +140,7 @@ def search_for_therapists():
     return render_template('search_results.html', results = users)
 
 
-<<<<<<< HEAD
-
-=======
 #TODO
->>>>>>> b3ce4fb4e7cea56a0035a799c377066875aeb742
 @app.route('/update_table', methods = ['POST'])
 def update_table():
     print("poster called")
@@ -159,16 +148,7 @@ def update_table():
     return redirect(url_for('home'))
 
 
-
-<<<<<<< HEAD
-
-@app.route('/profile', methods = ['GET', 'POST'])
-def profile():
-    return render_template('profile.html')
-
-=======
 @app.route('/profile', methods = ['GET', 'POST'])
 def profile():
     user = User.query.filter_by(id = g.user.id).first()
     return render_template('profile.html', user = user)
->>>>>>> b3ce4fb4e7cea56a0035a799c377066875aeb742
