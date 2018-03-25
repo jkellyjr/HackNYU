@@ -13,13 +13,13 @@
             h3{
                 text-align: center;
                 font-size: 35px;
-                
+
             }
-            
+
         </style>
     </head>
     <body>
-    
+
     </body>
     </html>
 
@@ -36,40 +36,27 @@
             {% endif %}
         {% endwith %}
 
-        <div class = "contianer">
+        <div class = "contianer-fluid">
+            <div class = "row">
+                <div class = "col-sm-3">
+                    <div class="jumbotron">
+                        <embed src="/images/network.svg" alt="Generic networking image">
+                        <a href = '/profile'>
+                            <h3 text-align:'center'>{{ user.first_name }} {{ user.last_name }}</h3>
+                        </a>
+                        <hr>
+                        <h5>We last heard from you: {{ user.last_seen }}</h5>
+                        <br>
+                    </div>
+                </div>
 
-          <div class = "row">
-
-          <div class = "col-sm-3">
-            <div class="jumbotron">
-                <embed src="/images/network.svg" alt="Generic networking image">
-                <a href = '/profile'>
-                    <h3 text-align:'center'>{{ user.first_name }} {{ user.last_name }}</h3>
-                </a>
-                <hr>
-                <h5>We last heard from you: {{ user.last_seen }}</h5>
-
-                <br>
-
-                    <!-- <img src = "../images/bird.png" > -->
-              <br>
-
-            </div>
-          </div>
-
-          <div class = "col-sm-9">
-
-
-
-        {% if user.user_role == 'patient' %}
-            {% include 'index_patient.html' %}
-        {% elif user.user_role == 'therapist' %}
-            {% include 'index_therapist.html' %}
-        {% endif %}
-
-
-          </div>
-
+                <div class = "col-md-9">
+                      {% if user.user_role == 'patient' %}
+                          {% include 'index_patient.html' %}
+                      {% elif user.user_role == 'therapist' %}
+                          {% include 'index_therapist.html' %}
+                      {% endif %}
+                </div>
 
 
       </div>

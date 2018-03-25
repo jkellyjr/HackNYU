@@ -1,36 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container-fluid">
-        <div class="jumbotron">
-            <h3>Steps to improve your state:</h3><br>
-                <ul class="list-group">
-                    {% for step in steps %}
-                        <a href="{{ step.url }}">
-                            <li class="list-group-item list-group-item-action">{{ loop.index }}.)&emsp; {{ step.text }}</li>
-                        </a>
-                    {% endfor %}
-                </div>
-            <button data-toggle="modal" data-target="#confirmContact" type="submit" class="btn btn-primary">Contact</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-
+<div class="container-fluid">
+    <div class="jumbotron">
+        <h3>Steps to improve your state:</h3><br>
+            <ul class="list-group">
+                {% for step in steps %}
+                    <a href="{{ step.url }}">
+                        <li class="list-group-item list-group-item-action">{{ loop.index }}.)&emsp; {{ step.text }}</li>
+                    </a>
+                {% endfor %}
+            </ul>
+        <button data-toggle="modal" data-target="#confirmContact" type="submit" class="btn btn-primary">Contact</button>
+        <button  id="closeContact" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
+</div>
 
-    <div id="confirmContact" class="modal fade" role="dialog">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h3 class="modal-title">Are you sure you would like to contact a medical professional?</h4>
-                    </div>
-                    <form method="GET" action="/contact">
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Contact</button>
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                  </form>
+
+<div id="confirmContact" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Are you sure you would like to contact a medical professional?</h4>
                 </div>
+                <form method="GET" action="/contact">
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Contact</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
-              </div>
+                    </div>
+              </form>
             </div>
+
+          </div>
+</div>
+
+<script>
+    $(function(){
+        $('#closeContact').click(function(){
+            location.href = "{{ url_for("home") }}"
+        })
+    })
+</script>
 {% endblock %}

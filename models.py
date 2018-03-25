@@ -45,7 +45,7 @@ class RememberTopic(db.Model):
     id = db.Column(db.Integer, unique = True, primary_key = True)
     title = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
-    topic_answers = db.relationship('TopicAnswers', backref=db.backref('RememberTopic', lazy = True))
+    topic_answers = db.relationship('TopicAnswers', backref=db.backref('RememberTopic', lazy = 'join'))
 
     def __init__(self, title, user_id):
         self.title = title
@@ -82,14 +82,12 @@ class DayInfo(db.Model):
 
     id = db.Column(db.Integer, unique = True, primary_key =True)
     date = db.Column(db.Date, nullable = False)
-    topic_and_responces = db.Column(db.String(5000))
     day_rate = db.Column(db.Integer)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
     def __init__(self, date, topic_and_responces, day_rate, user_id):
         self.date = date
-        self.topic_and_responces = topic_and_responces
         self.day_rate = day_rate
         self.user_id = user_id
 

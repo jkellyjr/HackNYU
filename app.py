@@ -129,32 +129,16 @@ def add_remeber_topic():
         return redirect(url_for('home'))
 
 
-# TODO
 @app.route('/rate_day/<rating>/<rateDay>', methods = ['GET', 'POST'])
 def rate_day(rating = None, rateDay = None):
-
     if request.method == 'POST' and rating != None and rateDay != None:
-        # if request.form['value'] != None and edit_row != None and edit_col != None:
-        #     topic_value = request.form['value']
-        #
-        #     user = User.query.filter(User.id == g.user.id).first()
-        #     rem_topics = [topic for topic in user.remember_topics]
-        #
-        #     map = { 'topic': rem_topics[int(edit_row)], 'value': topic_value}
-        #     print('adding ' + str(map) + " to topic val list")
-        #     topic_val_list.append(map)
-        print(rateDay)
-        #dt = json.loads(rateDay)
-        day = datetime.strptime(rateDay, '%Y-%m-%d').date()
-
-        day_info = DayInfo(day, "nothing just yet", int(rating), g.user.id)
+        dt = json.loads(rateDay)
+        day_info = DayInfo(dt['date'], "nothing just yet", int(rating), g.user.id)
 
         db.session.add(day_info)
         db.session.commit()
 
     return redirect(url_for('home'))
-
-
 
 
 @app.route('/update_table/<edit_date>/<rem_topic>', methods = ['GET', 'POST'])
@@ -192,14 +176,30 @@ def patient_sched(p_id):
     return render_template('index.html', user = user, table_head = headers, remeber_topics = user.remember_topics)
 
 
-#TODO
-@app.route('/search', methods = ['GET', 'POST'])
-def search_for_therapists():
-    users = User.query.filter_by(user_role = 'therapist').all()
-    return render_template('search_results.html', results = users)
-
-
 @app.route('/profile', methods = ['GET', 'POST'])
 def profile():
     user = User.query.filter_by(id = g.user.id).first()
     return render_template('profile.html', user = user)
+
+
+
+# @app.route('/get_day_info/<user_id>/<start_date>/<end_date>', methods = ['GET'])
+# def get_day_info(user_id = None, start_date = None, end_date = None):
+#     if request.method == "GET" and user_id != None and start_date != None and end_date != None:
+#         user = User.query.filter(User.id == user_id).first()
+#         if user == None:
+#             abort(404)
+#
+#         result_query = session.query(RememberTopic).\
+#         join(RememberTopic.topic_answers).\
+#         options(contains_eager(RememberTopic.topic_answers)).\
+#         filter(TopicAnswers.date >= start_date).\
+#         filter(TopicAnswers.date <= end_date)
+#
+#         print(result_query)
+#
+#         return result_query
+#
+#
+#     else:
+#         abort(400)
