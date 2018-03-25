@@ -16,7 +16,7 @@
                 <tr>
                     <th><b>Topics<b></th>
                     {% for col in table_head %}
-                        <th scope="col">{{ col }}</th>
+                        <th scope="col">{{ col.weekday }}</th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -27,7 +27,7 @@
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-xs btn-info">Select</button>
-                                    <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
+                                    <button id='selectButton' data-id="{{ loop.index }}" type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                   </button>
@@ -90,14 +90,25 @@
 
 
     <script>
-        $(function () {
-            $('#dayRate1, #dayRate2, #dayRate3, #dayRate4, #dayRate5').on('click', function () {
-                var val = $(this).data('id')
-                $.ajax({
-                    type: 'POST',
-                    url: '/rate_day/' + val + ''
+        $(document).ready(function () {
+            var col = undefined
+            $(document).on('click', '#selectButton', function () {
+                col = $(this).data('id')
+            })
+
+            $(function () {
+                $('#dayRate1, #dayRate2, #dayRate3, #dayRate4, #dayRate5').on('click', function () {
+                    var val = $(this).data('id')
+                    $.ajax({
+                        type: 'POST',
+                        url: '/rate_day/' + val + '/' + (col-1) + '',
+                    })
                 })
             })
         })
+
+
+
+
     </script>
 {% endblock %}
