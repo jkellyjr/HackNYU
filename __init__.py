@@ -20,20 +20,14 @@ login_manager.login_view = 'login'
 
 #********************************** INIT  **********************************
 from .models import User, Crisis, Step
-<<<<<<< HEAD
 
-=======
->>>>>>> 11ff0789e39dc5379fc29dd0fb440d16fe427893
 
 @app.cli.command('initdb')
 def initdb_command():
     """Reinitializes the database"""
     db.drop_all()
     db.create_all()
-<<<<<<< HEAD
 
-=======
->>>>>>> 11ff0789e39dc5379fc29dd0fb440d16fe427893
 
     user1 = User('Bob', 'Smith', 'a@gmail.com', '4074219805', generate_password_hash('123'), 'patient')
     user2 = User('Carol', 'Stevens', 'b@gmail.com', '4074219805', generate_password_hash('123'), 'therapist')
