@@ -3,10 +3,11 @@ from hack import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, g
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, RememberTopic, Crisis
+from .models import User, RememberTopic, Crisis, DayInfo
 from .forms import LoginForm, SignUpForm
 from .phone import SMS
-from datetime import date
+from datetime import date, timedelta
+import json
 
 #********************************** HELPERS  **********************************
 @app.before_request
@@ -23,6 +24,19 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
+def get_week_dict():
+    today = date.today()
+    weekday = date.today().weekday()
+    mon = today  - timedelta(days=weekday)
+
+    headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    date_list = []
+    for index, day in enumerate(headers):
+        dt = mon + timedelta(index)
+        map = { 'weekday': day, 'date': str(dt) }
+        date_list.append(map)
+    return date_list
+
 #********************************** VIEWS  **********************************
 @app.route('/', methods = ['GET'])
 @login_required
@@ -30,8 +44,8 @@ def home():
     user = User.query.filter_by(id = g.user.id).first()
 
     if user.user_role == 'patient':
-        headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        return render_template('index.html', user = g.user, table_head = headers, remeber_topics = user.remember_topics)
+        date_list = get_week_dict()
+        return render_template('index.html', user = g.user, table_head = date_list, remeber_topics = user.remember_topics)
     else:
         patients = User.query.filter(User.therapist.any(id = g.user.id)).all()
         return render_template('index.html', user = g.user, patients = patients)
@@ -101,14 +115,17 @@ def add_remeber_topic():
 
 
 # TODO
-@app.route('/rate_day/<rating>', methods = ['GET', 'POST'])
-def rate_day(rating = None):
-    if request.method == 'POST' and rating != None:
-        print("day rating: " + str(rating))
+@app.route('/rate_day/<rating>/<dayIndex>', methods = ['GET', 'POST'])
+def rate_day(rating = None, dayIndex = None):
+    if request.method == 'POST' and rating != None and dayIndex != None:
+        day_list = get_week_dict()
+        day = day_list[int(dayIndex)]
+        day_info = DayInfo(day['date'], "nothing just yet", int(rating), g.user.id)
+        db.session.add(day_info)
+        db.session.commit()
     return redirect(url_for('home'))
 
 
-# TODO
 @app.route('/crisis', methods = ['GET', 'POST'])
 def crisis():
     crisis = Crisis.query.filter(Crisis.type == 'panic_attack').first()

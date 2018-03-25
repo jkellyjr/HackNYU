@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = 'super-duper-secret-key'
 app.config['DEBUG'] = True
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hack.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:500/hack'
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
