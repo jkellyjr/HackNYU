@@ -3,9 +3,13 @@ from hack import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, g
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, RememberTopic
+from .models import User, RememberTopic, Crisis
 from .forms import LoginForm, SignUpForm
+<<<<<<< HEAD
 #from .phone import SMS
+=======
+from .phone import SMS
+>>>>>>> d6ff9b0392e08a3aa1401d30b4eb582a2924cc12
 from datetime import date
 
 #********************************** HELPERS  **********************************
@@ -27,8 +31,6 @@ def load_user(user_id):
 @app.route('/', methods = ['GET'])
 @login_required
 def home():
-    flash("Glad to hear from you " + g.user.first_name)
-
     user = User.query.filter_by(id = g.user.id).first()
 
     if user.user_role == 'patient':
@@ -113,15 +115,17 @@ def rate_day(rating = None):
 # TODO
 @app.route('/crisis', methods = ['GET', 'POST'])
 def crisis():
-    user = User.query.filter_by(id = g.user.id).first()
+    crisis = Crisis.query.filter(Crisis.type == 'panic_attack').first()
+    steps = [step for step in crisis.steps]
+    print(crisis.steps)
 
-    return render_template('crisis.html')
+    return render_template('crisis.html', steps = steps)
 
 
 @app.route('/contact', methods = ['GET', 'POST'])
 def contact_professionsal():
     message = "hello friend, I'm having a crisis and i need help"
-    SMS.send_message(message)
+    SMS.emergency_message(message)
     return redirect(url_for('home'))
 
 
@@ -133,19 +137,19 @@ def patient_sched(p_id):
     return render_template('index.html', user = user, table_head = headers, remeber_topics = user.remember_topics)
 
 
+#TODO
 @app.route('/search', methods = ['GET', 'POST'])
 def search_for_therapists():
     users = User.query.filter_by(user_role = 'therapist').all()
     return render_template('search_results.html', results = users)
 
 
-
+#TODO
 @app.route('/update_table', methods = ['POST'])
 def update_table():
     print("poster called")
     print(request.form['value'])
     return redirect(url_for('home'))
-
 
 
 @app.route('/profile', methods = ['GET', 'POST'])
