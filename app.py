@@ -3,10 +3,10 @@ from hack import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, g
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, RememberTopic, Crisis, DayInfo
+from .models import User, RememberTopic, Crisis, DayInfo, TopicAnswers
 from .forms import LoginForm, SignUpForm
 from .phone import SMS
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import json
 
 
@@ -28,15 +28,16 @@ def load_user(user_id):
 def get_week_dict():
     today = date.today()
     weekday = date.today().weekday()
-    mon = today  - timedelta(days=weekday)
+    mon = today - timedelta(days=weekday)
 
-    headers = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    headers = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     date_list = []
     for index, day in enumerate(headers):
         dt = mon + timedelta(index)
-        map = { 'weekday': day, 'date': str(dt) }
+        map = { "weekday": headers[weekday - index], "date": str(dt) }
         date_list.append(map)
     return date_list
+
 
 #********************************** VIEWS  **********************************
 @app.route('/', methods = ['GET'])
@@ -46,7 +47,22 @@ def home():
 
     if user.user_role == 'patient':
         date_list = get_week_dict()
-        return render_template('index.html', user = g.user, table_head = date_list, remeber_topics = user.remember_topics)
+
+        bigList = []
+        for topic in user.remember_topics:
+            lister = []
+            for ans in topic.topic_answers:
+                mini = {"date": str(ans.date), "answer": ans.answer }
+                lister.append(mini)
+            if len(lister) < 7:
+                for x in range(0, (7 - len(lister))):
+                    mini = {"date": "", "answer": ""}
+                    lister.append(mini)
+
+            map = {"topic": topic.title, "topic_answers": lister }
+            bigList.append(map)
+
+        return render_template('index.html', user = g.user, table_head = date_list, remeber_topics = bigList)
     else:
         patients = User.query.filter(User.therapist.any(id = g.user.id)).all()
         return render_template('index.html', user = g.user, patients = patients)
@@ -61,7 +77,6 @@ def login():
     form = LoginForm()
 
     if request.method == 'POST' and form.validate_on_submit():
-        print("post request made")
         user = User.query.filter_by(email = request.form['email']).first()
         if user == None:
             flash('Invalid username provided')
@@ -89,7 +104,6 @@ def signup():
             return redirect(url_for('signup'))
         else:
             user = User(request.form['first_name'], request.form['last_name'], request.form['email'], request.form['phone'], generate_password_hash(request.form['password']), request.form['choice1'])
-            print(user)
             db.session.add(user)
             db.session.commit()
         if user != None:
@@ -116,14 +130,42 @@ def add_remeber_topic():
 
 
 # TODO
-@app.route('/rate_day/<rating>/<dayIndex>', methods = ['GET', 'POST'])
-def rate_day(rating = None, dayIndex = None):
-    if request.method == 'POST' and rating != None and dayIndex != None:
-        day_list = get_week_dict()
-        day = day_list[int(dayIndex)]
-        day_info = DayInfo(day['date'], "nothing just yet", int(rating), g.user.id)
+@app.route('/rate_day/<rating>/<rateDay>', methods = ['GET', 'POST'])
+def rate_day(rating = None, rateDay = None):
+
+    if request.method == 'POST' and rating != None and rateDay != None:
+        # if request.form['value'] != None and edit_row != None and edit_col != None:
+        #     topic_value = request.form['value']
+        #
+        #     user = User.query.filter(User.id == g.user.id).first()
+        #     rem_topics = [topic for topic in user.remember_topics]
+        #
+        #     map = { 'topic': rem_topics[int(edit_row)], 'value': topic_value}
+        #     print('adding ' + str(map) + " to topic val list")
+        #     topic_val_list.append(map)
+        print(rateDay)
+        #dt = json.loads(rateDay)
+        day = datetime.strptime(rateDay, '%Y-%m-%d').date()
+
+        day_info = DayInfo(day, "nothing just yet", int(rating), g.user.id)
+
         db.session.add(day_info)
         db.session.commit()
+
+    return redirect(url_for('home'))
+
+
+
+
+@app.route('/update_table/<edit_date>/<rem_topic>', methods = ['GET', 'POST'])
+def update_table(edit_date = None, rem_topic = None):
+    if request.method == 'POST' and request.form['value'] != None and edit_date != None and rem_topic != None:
+        topic_value = request.form['value']
+        topic = RememberTopic.query.filter(RememberTopic.title == rem_topic).first()
+        answer = TopicAnswers(topic_value, edit_date, topic.id)
+        db.session.add(answer)
+        db.session.commit()
+
     return redirect(url_for('home'))
 
 
@@ -131,7 +173,6 @@ def rate_day(rating = None, dayIndex = None):
 def crisis():
     crisis = Crisis.query.filter(Crisis.type == 'panic_attack').first()
     steps = [step for step in crisis.steps]
-    print(crisis.steps)
 
     return render_template('crisis.html', steps = steps)
 
@@ -156,14 +197,6 @@ def patient_sched(p_id):
 def search_for_therapists():
     users = User.query.filter_by(user_role = 'therapist').all()
     return render_template('search_results.html', results = users)
-
-
-#TODO
-@app.route('/update_table', methods = ['POST'])
-def update_table():
-    print("poster called")
-    print(request.form['value'])
-    return redirect(url_for('home'))
 
 
 @app.route('/profile', methods = ['GET', 'POST'])

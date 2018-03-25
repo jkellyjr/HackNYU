@@ -40,11 +40,12 @@ class User(db.Model, UserMixin):
 
 
 class RememberTopic(db.Model):
-    __tablename__ = 'remeber_topic'
+    __tablename__ = 'remember_topic'
 
     id = db.Column(db.Integer, unique = True, primary_key = True)
     title = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    topic_answers = db.relationship('TopicAnswers', backref=db.backref('RememberTopic', lazy = True))
 
     def __init__(self, title, user_id):
         self.title = title
@@ -52,6 +53,26 @@ class RememberTopic(db.Model):
 
     def __repr__(self):
         return '<RememberTopic: %r>' %(self.title)
+
+
+
+class TopicAnswers(db.Model):
+    __tablename__ = 'topic_answers'
+
+    id = db.Column(db.Integer, unique = True, primary_key = True)
+    answer = db.Column(db.String(300))
+    date = db.Column(db.Date)
+
+    topic_id = db.Column(db.Integer, db.ForeignKey('remember_topic.id'), nullable = False)
+
+
+    def __init__(self, answer, date, topic_id):
+        self.answer = answer
+        self.date = date
+        self.topic_id = topic_id
+
+    def __repr__(self):
+        return '<Topic Answers: %r>' %(self.answer)
 
 
 
@@ -92,10 +113,6 @@ class Crisis(db.Model):
     def __repr__(self):
         return '<Crisis: %r>' %(self.title)
 
-
-
-    def __repr__(self):
-        return '<Crisis: %r>' %(self.title)
 
 
 
