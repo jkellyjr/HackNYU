@@ -2,80 +2,86 @@
 
 {% block content %}
 
-<!--<link rel="stylesheet" type="text/css" href="dist/calendar-heatmap.min.css">-->
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/g1eb/calendar-heatmap/master/dist/calendar-heatmap.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.2/d3.min.js" charset="utf-8"></script>
-<script src="dist/calendar-heatmap.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/g1eb/calendar-heatmap/master/dist/calendar-heatmap.min.js"></script>
+
+
 
 <h2>Profile Page</h2>
 
 <div class = "container">
 
-  <div class = "row">
+    <div class="jumbotron">
 
-  <div class = "col-sm-3">
-    <div class="jumbotron vertical-center">
+      <div class = "row">
+              <div class = "col-sm-3">
+                  <br>
+                  <br>
+                <img  src="/bird.png" ></img>
+                  <br>
+                  <br>
+                  <strong>{{user.first_name}} {{user.last_name}}</strong>
 
-        <strong>{{user.first_name}} {{user.last_name}}</strong>
-          <br>
-          <br>
+              </div>
 
-        <img src = "bird.png">
-        <!--img src="../images/noun_317504_cc.svg" onerror="this.onerror=null; this.src='noun_317504_cc.png'"-->
-          <br>
-          <br>
 
-        <div class = 'container'>
-          <div contenteditable = "true">{{user.email}}</div>
-          <div class = 'overlay'>
-                  <span class = "glyphicon glyphicon-pencil"></span>
-          </div>
-        </div>
-          <br>
+              <div class = "col-sm-3">
 
-        <div contenteditable = "true">{{user.phone}}</div>
-          <br>
+                <div class = 'container'>
+                    <div contenteditable = "true">{{user.email}}</div>
+                    <div class = 'overlay'>
+                        <span class = "glyphicon glyphicon-pencil"></span>
+                    </div>
+                </div>
+              </div>
 
+              <div class = "col-sm-3">
+                <div contenteditable = "true">{{user.phone}}</div>
+                <br>
+              </div>
+      </div>
 
     </div>
-  </div>
-
-  <div class = "col-sm-9">
-    <!--<div class="jumbotron vertical-center">-->
-
-      <script>
-      var example_data = [{
-          "date": "2018-03-20",
-          "total": 17164,
-          "details": [{
-           "name": "Project 1",
-           "date": "2018-03-20 12:30:45",
-           "value": 9192
-          }, {
-           "name": "Project 2",
-           "date": "2018-03-20 13:37:00",
-           "value": 6753
-          }, {
-           "name": "Project 3",
-           "date": "2018-03-20 17:52:41",
-           "value": 1219
-          }]
-      }]
-
-        calendarHeatmap.init(example_data, '#cd2327', 'month', print);
-
-
-
-      </script>
-
-    <!--</div>-->
-  </div>
-
-
-
-  </div>
-
 </div>
+
+<div class = "container">
+
+  <div id = "heatchart" class="jumbotron">
+
+    <svg>
+
+                  <script>
+                      var example_data = [{
+                          "date": "2018-03-20",
+                          "total": 5,
+                          "details": [{
+                           "name": "Take medication",
+                           "date": "2018-03-20 12:30:45",
+                           "value": 0
+                          }, {
+                           "name": "Eat 3 meals",
+                           "date": "2018-03-20 13:37:00",
+                           "value": 0
+                          }, {
+                           "name": "Talk with family",
+                           "date": "2018-03-20 17:52:41",
+                           "value": 0
+                          }]
+                      }]
+
+                    //#C0C0C0
+                    //#cd2327
+                    calendarHeatmap.init(example_data, '#C0C0C0', 'year');
+
+
+                  </script>
+
+      </svg>
+  </div>
+</div>
+
 
 
 

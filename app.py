@@ -5,10 +5,17 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic, Crisis, DayInfo, TopicAnswers
 from .forms import LoginForm, SignUpForm
+<<<<<<< Updated upstream
 from .phone import SMS
 from datetime import date, timedelta, datetime
 import json
 
+=======
+
+#from .phone import SMS
+from .phone import SMS
+from datetime import date
+>>>>>>> Stashed changes
 
 #********************************** HELPERS  **********************************
 @app.before_request
