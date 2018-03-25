@@ -19,19 +19,15 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 #********************************** INIT  **********************************
-<<<<<<< HEAD
-from .models import User
-=======
 from .models import User, Crisis, Step
->>>>>>> d96059d5856ea8ccd73c72de47e355b355434dd5
+
 
 @app.cli.command('initdb')
 def initdb_command():
     """Reinitializes the database"""
     db.drop_all()
     db.create_all()
-<<<<<<< HEAD
-=======
+
 
     user1 = User('Bob', 'Smith', 'p@gmail.com', '4074219805', generate_password_hash('123'), 'patient')
     user2 = User('Carol', 'Smith', 't@gmail.com', '4074219805', generate_password_hash('123'), 'therapist')
@@ -53,7 +49,6 @@ def initdb_command():
     db.session.add(step3)
     db.session.add(step4)
 
->>>>>>> d96059d5856ea8ccd73c72de47e355b355434dd5
     db.session.commit()
 
     print('Created Database')
