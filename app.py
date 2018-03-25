@@ -87,7 +87,7 @@ def signup():
 @app.route('/logout')
 def logout():
     logout_user()
-    session.pop('_flashes', None)
+    #session.pop('_flashes', None) LINE CAUSES LOGOUT TO FAIL
     return redirect(url_for('login'))
 
 
