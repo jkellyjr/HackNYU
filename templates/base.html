@@ -25,9 +25,6 @@
                     {% endif %}
                     {% if g.user.is_active %}
                         <li><a href="{{ url_for("home") }}" >Home</a></li>
-                        {% if g.user.user_role == 'patient' %}
-                            <li><a href="{{ url_for("search_for_therapists") }}">Search Therapists</a></li>
-                        {% endif %}
                         <li><a href="{{ url_for("logout") }}" >Log out</a></li>
                     {% endif %}
               </ul>
