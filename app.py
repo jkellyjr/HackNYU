@@ -6,14 +6,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic
 from .forms import LoginForm, SignUpForm
 #from .phone import SMS
-from datetime import datetime
+from datetime import date
 
 #********************************** HELPERS  **********************************
 @app.before_request
 def before_request():
     g.user = current_user
     if g.user.is_authenticated:
-        g.user.last_seen = datetime.utcnow()
+        g.user.last_seen = date.today()
         db.session.add(g.user)
         db.session.commit()
 
