@@ -5,7 +5,6 @@ from werkzeug.security import generate_password_hash
 from flask_login import LoginManager
 
 
-
 #********************************** CONFIGURATIONS  **********************************
 app = Flask(__name__)
 app.secret_key = 'super-duper-secret-key'
