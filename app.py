@@ -5,9 +5,17 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic, Crisis, DayInfo
 from .forms import LoginForm, SignUpForm
+
+#from .phone import SMS
+
 from .phone import SMS
+<<<<<<< HEAD
 from datetime import date, timedelta
 import json
+=======
+
+from datetime import date
+>>>>>>> refs/remotes/origin/master
 
 #********************************** HELPERS  **********************************
 @app.before_request
@@ -101,7 +109,7 @@ def signup():
 @app.route('/logout')
 def logout():
     logout_user()
-    session.pop('_flashes', None)
+    #session.pop('_flashes', None) LINE CAUSES LOGOUT TO FAIL
     return redirect(url_for('login'))
 
 
