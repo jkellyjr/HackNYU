@@ -2,6 +2,11 @@
 
 {% block content %}
 
+<!--<link rel="stylesheet" type="text/css" href="dist/calendar-heatmap.min.css">-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.2/d3.min.js" charset="utf-8"></script>
+<script src="dist/calendar-heatmap.min.js"></script>
+
 <h2>Profile Page</h2>
 
 <div class = "container">
@@ -36,12 +41,34 @@
   </div>
 
   <div class = "col-sm-9">
-    <div class="jumbotron vertical-center">
+    <!--<div class="jumbotron vertical-center">-->
 
-      
+      <script>
+      var example_data = [{
+          "date": "2018-03-20",
+          "total": 17164,
+          "details": [{
+           "name": "Project 1",
+           "date": "2018-03-20 12:30:45",
+           "value": 9192
+          }, {
+           "name": "Project 2",
+           "date": "2018-03-20 13:37:00",
+           "value": 6753
+          }, {
+           "name": "Project 3",
+           "date": "2018-03-20 17:52:41",
+           "value": 1219
+          }]
+      }]
+
+        calendarHeatmap.init(example_data, '#cd2327', 'month', print);
 
 
-    </div>
+
+      </script>
+
+    <!--</div>-->
   </div>
 
 

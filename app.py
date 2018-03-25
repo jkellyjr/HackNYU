@@ -5,7 +5,11 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic, Crisis
 from .forms import LoginForm, SignUpForm
+<<<<<<< HEAD
+#from .phone import SMS
+=======
 from .phone import SMS
+>>>>>>> d6ff9b0392e08a3aa1401d30b4eb582a2924cc12
 from datetime import date
 
 #********************************** HELPERS  **********************************
