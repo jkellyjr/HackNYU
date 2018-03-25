@@ -16,7 +16,7 @@
                 <tr>
                     <th><b>Topics<b></th>
                     {% for col in table_head %}
-                        <th scope="col">{{ col.weekday }}</th>
+                        <th scope="col">{{ col['weekday'] }}</th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -24,10 +24,10 @@
                 <tr>
                     <td>How was your day:</td>
                         {% for col in table_head %}
-                            <td>
+                            <th>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-xs btn-info">Select</button>
-                                    <button id='selectButton' data-id="{{ loop.index }}" type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
+                                    <button id='selectButton' data-id="{{ table_head[loop.index - 1].date }}" type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                   </button>
@@ -39,15 +39,21 @@
                                     <li><a id="dayRate1" data-id="1">Not fun</a></li>
                                   </ul>
                                </div>
-                           </td>
+                           </th>
                          {% endfor %}
                 </tr>
                 {% for topic in remeber_topics %}
                     <tr>
-                        <td>{{ topic.title }}</td>
-                        {% for col in table_head %}
-                            <td></td>
-                        {% endfor %}
+                        <td>{{ topic.topic }}</td>
+
+                            {% for dict in topic.topic_answers %}
+                                {% if dict.date == table_head[loop.index0 - 1].date %}
+                                    <td>{{ dict.answer }}</td>
+                                {% else %}
+                                    <td  id="editCell" data-id="{{ table_head[loop.index0 - 1].date }},{{ topic.topic }}"></td>
+                                {% endif %}
+                            {% endfor %}
+
                     </tr>
                 {% endfor %}
             </tbody>
@@ -90,19 +96,37 @@
 
 
     <script>
+
         $(document).ready(function () {
-            var col = undefined
+            var rate_date = undefined
+            var edit_topic_date = undefined
+            var rem_topic = undefined
+
             $(document).on('click', '#selectButton', function () {
-                col = $(this).data('id')
+                rate_date = $(this).data('id')
             })
 
             $(function () {
                 $('#dayRate1, #dayRate2, #dayRate3, #dayRate4, #dayRate5').on('click', function () {
-                    var val = $(this).data('id')
+                    var rate = $(this).data('id')
+                    date = rate_date.replace(/'/g, '"')
                     $.ajax({
                         type: 'POST',
-                        url: '/rate_day/' + val + '/' + (col-1) + '',
+                        url: "/rate_day/" + rate + "/" + date + "",
                     })
+                })
+            })
+
+            $(document).on('click', '#editCell', function () {
+                var tmp = $(this).data('id').split(',')
+                edit_date = tmp[0]
+                rem_topic = tmp[1]
+
+                $('.table tr td').editable({
+                    send: 'always',
+                    emptytext: '',
+                    type: 'text',
+                    url: "/update_table/" + edit_date + "/" + rem_topic + ""
                 })
             })
         })
