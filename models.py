@@ -53,6 +53,7 @@ class RememberTopic(db.Model):
     def __repr__(self):
         return '<RememberTopic: %r>' %(self.title)
 
+<<<<<<< HEAD
 
 # class Crisis(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
@@ -63,6 +64,8 @@ class RememberTopic(db.Model):
 #     def __init__(self, title):
 #         self.title = title
 
+=======
+>>>>>>> 11ff0789e39dc5379fc29dd0fb440d16fe427893
 
 
 class DayInfo(db.Model):
@@ -97,6 +100,7 @@ class Crisis(db.Model):
     def __init__(self, title, type):
         self.title = title
         self.type = type
+<<<<<<< HEAD
 
 
 #     def __repr__(self):
@@ -116,6 +120,11 @@ class Crisis(db.Model):
 #     def __repr__(self):
 #         return '<step: %r>' %(self.text)
 
+=======
+
+    def __repr__(self):
+        return '<Crisis: %r>' %(self.title)
+>>>>>>> 11ff0789e39dc5379fc29dd0fb440d16fe427893
 
 
 class Step(db.Model):

@@ -1,11 +1,15 @@
 #********************************** IMPORTS  **********************************
-from HACKNYU2018Github import app, db, login_manager
+from hack import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, g
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, RememberTopic, Crisis
 from .forms import LoginForm, SignUpForm
+<<<<<<< HEAD
 #from .phone import SMS
+=======
+from .phone import SMS
+>>>>>>> d6ff9b0392e08a3aa1401d30b4eb582a2924cc12
 from datetime import date
 
 #********************************** HELPERS  **********************************
@@ -27,8 +31,6 @@ def load_user(user_id):
 @app.route('/', methods = ['GET'])
 @login_required
 def home():
-    flash("Glad to hear from you " + g.user.first_name)
-
     user = User.query.filter_by(id = g.user.id).first()
 
     if user.user_role == 'patient':
@@ -123,7 +125,7 @@ def crisis():
 @app.route('/contact', methods = ['GET', 'POST'])
 def contact_professionsal():
     message = "hello friend, I'm having a crisis and i need help"
-    SMS.send_message(message)
+    SMS.emergency_message(message)
     return redirect(url_for('home'))
 
 
@@ -148,7 +150,6 @@ def update_table():
     print("poster called")
     print(request.form['value'])
     return redirect(url_for('home'))
-
 
 
 @app.route('/profile', methods = ['GET', 'POST'])
