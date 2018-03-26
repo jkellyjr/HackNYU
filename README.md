@@ -6,10 +6,10 @@ We attempted to implement a platform for people suffering from mental health iss
 
 ## Installation
 ```
-git clone *
-cd <repository>
+git clone https://github.com/jkellyjr/HackNYU.git
+cd HackNYU
 python3 -m venv flask
-pip3 install -r requirements.txt
+flask/bin/pip3 install -r requirements.txt
 ```
 
 
