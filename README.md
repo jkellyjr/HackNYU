@@ -1,6 +1,9 @@
 # HackNYU
 This project was a submission for the 2018 NYU Hackathon.
 
+## About the Project:
+We attempted to implement a platform for people suffering from mental health issues to track their emotional statuses by days/weeks/months/years and therapists to track these statuses in real time.
+
 ## Installation
 ```
 git clone *
