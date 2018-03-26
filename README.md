@@ -1,4 +1,5 @@
-# hack
+# HackNYU
+This project was a submission for the 2018 NYU Hackathon.
 
 ## Installation
 ```
